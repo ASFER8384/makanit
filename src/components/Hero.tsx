@@ -158,7 +158,7 @@ export default function Hero() {
             display: 'flex',
             alignItems: 'center',
             backgroundColor: 'white',
-            borderRadius: { xs: 2, md: 50 },
+            borderRadius: { xs: 4, md: 50 },
             boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
             maxWidth: 800,
             width: '100%',
