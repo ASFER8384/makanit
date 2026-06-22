@@ -1,11 +1,13 @@
 'use client';
 
-import { Box, Container, Grid, Typography, Stack } from '@mui/material';
+import { Box, Container, Grid, Typography } from '@mui/material';
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
 import MosqueIcon from '@mui/icons-material/Mosque';
 import CardTravelIcon from '@mui/icons-material/CardTravel';
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Link from 'next/link';
+import SectionHeading from './SectionHeading';
 
 const services = [
   {
@@ -36,67 +38,118 @@ const services = [
 
 export default function Services() {
   return (
-    <Box sx={{ py: { xs: 6, md: 8 }, backgroundColor: '#f8f9fa' }}>
+    <Box
+      sx={{
+        py: { xs: 6, md: 8 },
+        background:
+          'linear-gradient(180deg, #f8f9fa 0%, #ffffff 45%, #f7fbff 100%)',
+      }}
+    >
       <Container maxWidth="lg">
-        <Typography
-          variant="h2"
-          sx={{
-            textAlign: 'center',
-            fontSize: { xs: '1.8rem', md: '2.5rem' },
-            mb: 1,
-            color: '#00243f',
-          }}
-        >
-          Our Travel Services
-        </Typography>
-        <Typography
-          variant="body1"
-          sx={{
-            textAlign: 'center',
-            color: '#666',
-            mb: 5,
-            maxWidth: 600,
-            mx: 'auto',
-            fontSize: '1.05rem',
-          }}
-        >
-          Discover our range of travel services designed to make your journey unforgettable
-        </Typography>
+        <SectionHeading
+          eyebrow="What We Offer"
+          title="Our Travel Services"
+          subtitle="Discover our range of travel services designed to make your journey unforgettable"
+        />
 
         <Grid container spacing={3}>
           {services.map((service, index) => (
             <Grid size={{ xs: 12, sm: 6, md: 3 }} key={index}>
-              <Link href={service.link} passHref legacyBehavior>
+              <Box
+                component={Link}
+                href={service.link}
+                sx={{
+                  position: 'relative',
+                  backgroundColor: '#00243f',
+                  color: 'white',
+                  borderRadius: 2,
+                  p: 3.5,
+                  textAlign: 'center',
+                  cursor: 'pointer',
+                  textDecoration: 'none',
+                  display: 'block',
+                  minHeight: 240,
+                  overflow: 'hidden',
+                  border: '1px solid rgba(255,255,255,0.06)',
+                  boxShadow: '0 12px 30px rgba(0,36,63,0.12)',
+                  transition: 'transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease',
+                  '&::before': {
+                    content: '""',
+                    position: 'absolute',
+                    inset: 0,
+                    background:
+                      'linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0))',
+                    pointerEvents: 'none',
+                  },
+                  '&:hover': {
+                    transform: 'translateY(-6px)',
+                    boxShadow: '0 18px 44px rgba(0,36,63,0.22)',
+                    borderColor: 'rgba(224,131,85,0.4)',
+                  },
+                  '&:hover .svc-icon': {
+                    backgroundColor: '#e08355',
+                    borderColor: '#e08355',
+                    color: '#ffffff',
+                    transform: 'scale(1.06)',
+                  },
+                  '&:hover .svc-title': { color: '#e08355' },
+                  '&:hover .svc-cta': { opacity: 1, transform: 'translateY(0)' },
+                }}
+              >
                 <Box
-                  component="a"
+                  className="svc-icon"
                   sx={{
-                    backgroundColor: '#00243f',
-                    color: 'white',
-                    borderRadius: 3,
-                    p: 3.5,
-                    textAlign: 'center',
-                    cursor: 'pointer',
-                    textDecoration: 'none',
-                    display: 'block',
-                    transition: 'all 0.3s ease',
-                    minHeight: 220,
-                    '&:hover': {
-                      transform: 'translateY(-5px)',
-                      boxShadow: '0 15px 40px rgba(0,36,63,0.3)',
-                    },
+                    width: 64,
+                    height: 64,
+                    borderRadius: 8,
+                    backgroundColor: 'rgba(224,131,85,0.14)',
+                    border: '1px solid rgba(224,131,85,0.22)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#e08355',
+                    mx: 'auto',
+                    mb: 2,
+                    transition: 'background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, transform 0.3s ease',
                   }}
                 >
-                  <Box sx={{ color: '#e08355', mb: 2 }}>
-                    {service.icon}
-                  </Box>
-                  <Typography variant="h5" sx={{ mb: 1.5, fontWeight: 600, fontSize: '1.2rem', color: '#e08355' }}>
-                    {service.title}
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)', lineHeight: 1.6 }}>
-                    {service.description}
-                  </Typography>
+                  {service.icon}
                 </Box>
-              </Link>
+                <Typography
+                  className="svc-title"
+                  variant="h5"
+                  sx={{
+                    mb: 1.5,
+                    fontWeight: 700,
+                    fontSize: '1.1rem',
+                    color: 'white',
+                    transition: 'color 0.3s ease',
+                  }}
+                >
+                  {service.title}
+                </Typography>
+                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.78)', lineHeight: 1.7 }}>
+                  {service.description}
+                </Typography>
+                <Box
+                  className="svc-cta"
+                  sx={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 0.5,
+                    mt: 2,
+                    color: '#e08355',
+                    fontWeight: 600,
+                    fontSize: '0.82rem',
+                    opacity: { xs: 1, md: 0 },
+                    transform: { xs: 'none', md: 'translateY(8px)' },
+                    transition: 'opacity 0.3s ease, transform 0.3s ease',
+                  }}
+                >
+                  Learn More
+                  <ArrowForwardIcon sx={{ fontSize: 16 }} />
+                </Box>
+              </Box>
             </Grid>
           ))}
         </Grid>

@@ -27,7 +27,7 @@ const stats = [
     icon: <CalendarMonthIcon sx={{ fontSize: { xs: 32, md: 40 } }} />,
   },
   {
-    value: 4.9,
+    value: 5,
     suffix: '',
     label: 'Customer Rating',
     icon: <StarIcon sx={{ fontSize: { xs: 32, md: 40 } }} />,
@@ -51,7 +51,7 @@ export default function Stats() {
                 sx={{
                   textAlign: 'center',
                   backgroundColor: 'rgba(255,255,255,0.06)',
-                  borderRadius: 3,
+                  borderRadius: 2,
                   px: { xs: 2, md: 3 },
                   py: { xs: 3, md: 4 },
                   height: '100%',

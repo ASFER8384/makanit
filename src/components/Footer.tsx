@@ -7,8 +7,6 @@ import {
   Typography,
   Stack,
   IconButton,
-  TextField,
-  Button,
   Divider,
 } from '@mui/material';
 import FacebookIcon from '@mui/icons-material/Facebook';
@@ -44,10 +42,11 @@ export default function Footer() {
     <Box
       component="footer"
       sx={{
-        backgroundColor: '#00243f',
+        background: 'linear-gradient(180deg, #00243f 0%, #00192b 100%)',
         color: 'white',
-        pt: { xs: 4, md: 6 },
+        pt: { xs: 5, md: 7 },
         pb: 0,
+        borderTop: '1px solid rgba(255,255,255,0.08)',
       }}
     >
       <Container maxWidth="lg">
@@ -55,7 +54,7 @@ export default function Footer() {
           {/* About */}
           <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <Image
-              src="/images/makani-logo.png"
+              src="/logoWhite.png"
               alt="Makani Travel"
               width={160}
               height={65}
@@ -97,7 +96,7 @@ export default function Footer() {
           <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <Typography
               variant="h6"
-              sx={{ mb: 2.5, fontWeight: 600, position: 'relative',
+              sx={{ mb: 2.5, fontWeight: 700, position: 'relative',
                 '&::after': {
                   content: '""',
                   position: 'absolute',
@@ -113,21 +112,21 @@ export default function Footer() {
             </Typography>
             <Stack spacing={1.5}>
               {quickLinks.map((link) => (
-                <Link key={link.label} href={link.href} passHref legacyBehavior>
-                  <Typography
-                    component="a"
-                    variant="body2"
-                    sx={{
-                      color: '#ccc',
-                      textDecoration: 'none',
-                      '&:hover': { color: '#e08355', pl: 0.5 },
-                      transition: 'all 0.3s',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    {link.label}
-                  </Typography>
-                </Link>
+                <Typography
+                  key={link.label}
+                  component={Link}
+                  href={link.href}
+                  variant="body2"
+                  sx={{
+                    color: '#ccc',
+                    textDecoration: 'none',
+                    '&:hover': { color: '#e08355', pl: 0.5 },
+                    transition: 'all 0.3s',
+                    cursor: 'pointer',
+                  }}
+                >
+                  {link.label}
+                </Typography>
               ))}
             </Stack>
           </Grid>
@@ -136,7 +135,7 @@ export default function Footer() {
           <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <Typography
               variant="h6"
-              sx={{ mb: 2.5, fontWeight: 600, position: 'relative',
+              sx={{ mb: 2.5, fontWeight: 700, position: 'relative',
                 '&::after': {
                   content: '""',
                   position: 'absolute',
@@ -152,21 +151,21 @@ export default function Footer() {
             </Typography>
             <Stack spacing={1.5}>
               {destinations.map((dest) => (
-                <Link key={dest.label} href={dest.href} passHref legacyBehavior>
-                  <Typography
-                    component="a"
-                    variant="body2"
-                    sx={{
-                      color: '#ccc',
-                      textDecoration: 'none',
-                      '&:hover': { color: '#e08355', pl: 0.5 },
-                      transition: 'all 0.3s',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    {dest.label}
-                  </Typography>
-                </Link>
+                <Typography
+                  key={dest.label}
+                  component={Link}
+                  href={dest.href}
+                  variant="body2"
+                  sx={{
+                    color: '#ccc',
+                    textDecoration: 'none',
+                    '&:hover': { color: '#e08355', pl: 0.5 },
+                    transition: 'all 0.3s',
+                    cursor: 'pointer',
+                  }}
+                >
+                  {dest.label}
+                </Typography>
               ))}
             </Stack>
           </Grid>
@@ -175,7 +174,7 @@ export default function Footer() {
           <Grid size={{ xs: 12, sm: 6, md: 3 }}>
             <Typography
               variant="h6"
-              sx={{ mb: 2.5, fontWeight: 600, position: 'relative',
+              sx={{ mb: 2.5, fontWeight: 700, position: 'relative',
                 '&::after': {
                   content: '""',
                   position: 'absolute',
@@ -226,7 +225,7 @@ export default function Footer() {
           }}
         >
           <Typography variant="body2" sx={{ color: '#999' }}>
-            © {new Date().getFullYear()} Makani Travel & Tourism. All rights reserved.
+            © 2026 Makani Travel & Tourism. All rights reserved.
           </Typography>
           <Typography variant="body2" sx={{ color: '#999' }}>
             Powered by{' '}

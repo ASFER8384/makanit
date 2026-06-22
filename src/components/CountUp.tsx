@@ -21,7 +21,7 @@ export default function CountUp({ end, duration = 2000 }: CountUpProps) {
 
   const format = (n: number) => {
     if (decimals > 0) return n.toFixed(decimals);
-    return n.toLocaleString();
+    return Math.round(n).toLocaleString();
   };
 
   useEffect(() => {

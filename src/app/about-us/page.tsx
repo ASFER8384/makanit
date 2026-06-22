@@ -9,6 +9,7 @@ import {
   Stack,
 } from '@mui/material';
 import Image from 'next/image';
+import SectionHeading from '@/components/SectionHeading';
 import AirplanemodeActiveIcon from '@mui/icons-material/AirplanemodeActive';
 import HotelIcon from '@mui/icons-material/Hotel';
 import SupportAgentIcon from '@mui/icons-material/SupportAgent';
@@ -86,6 +87,8 @@ export default function AboutUs() {
                   height: { xs: 300, md: 420 },
                   borderRadius: 3,
                   overflow: 'hidden',
+                  border: '1px solid rgba(0,36,63,0.06)',
+                  boxShadow: '0 18px 50px rgba(0,36,63,0.14)',
                 }}
               >
                 <Image
@@ -94,12 +97,38 @@ export default function AboutUs() {
                   fill
                   style={{ objectFit: 'cover' }}
                 />
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    inset: 0,
+                    background:
+                      'linear-gradient(180deg, rgba(0,0,0,0) 45%, rgba(0,36,63,0.2) 100%)',
+                  }}
+                />
               </Box>
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
-              <Typography variant="h3" sx={{ color: '#00243f', mb: 2, fontSize: { xs: '1.6rem', md: '2rem' } }}>
+              <Typography
+                variant="overline"
+                sx={{ color: '#e08355', fontWeight: 700, letterSpacing: 2, fontSize: '0.8rem' }}
+              >
+                Who We Are
+              </Typography>
+              <Typography
+                variant="h3"
+                sx={{ color: '#00243f', mt: 1, mb: 2, fontSize: { xs: '1.6rem', md: '2rem' } }}
+              >
                 Your Trusted Travel Partner in the UAE
               </Typography>
+              <Box
+                sx={{
+                  width: 60,
+                  height: 3,
+                  borderRadius: 2,
+                  backgroundColor: '#e08355',
+                  mb: 2.5,
+                }}
+              />
               <Typography variant="body1" sx={{ color: '#555', lineHeight: 1.8, mb: 2 }}>
                 Makani Travel & Tourism is a premier travel agency based in Ajman, UAE. We
                 specialize in creating unforgettable travel experiences for our clients,
@@ -121,29 +150,11 @@ export default function AboutUs() {
 
         {/* Features */}
         <Box sx={{ pb: { xs: 6, md: 8 } }}>
-          <Typography
-            variant="h2"
-            sx={{
-              textAlign: 'center',
-              fontSize: { xs: '1.8rem', md: '2.2rem' },
-              mb: 1,
-              color: '#00243f',
-            }}
-          >
-            Why Choose Us
-          </Typography>
-          <Typography
-            variant="body1"
-            sx={{
-              textAlign: 'center',
-              color: '#666',
-              mb: 5,
-              maxWidth: 600,
-              mx: 'auto',
-            }}
-          >
-            We provide comprehensive travel services tailored to your needs
-          </Typography>
+          <SectionHeading
+            eyebrow="What Sets Us Apart"
+            title="Why Choose Us"
+            subtitle="We provide comprehensive travel services tailored to your needs"
+          />
           <Grid container spacing={3}>
             {features.map((feature, index) => (
               <Grid size={{ xs: 12, sm: 6, md: 3 }} key={index}>

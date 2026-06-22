@@ -1,6 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import {
   AppBar,
   Toolbar,
@@ -15,8 +17,6 @@ import {
   Divider,
   Container,
   Typography,
-  useMediaQuery,
-  useTheme,
   Stack,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -26,6 +26,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import LanguageIcon from '@mui/icons-material/Language';
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 
 const navItems = [
   { label: 'Home', href: '/' },
@@ -60,79 +61,188 @@ const navItems = [
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const shellRef = useRef<HTMLDivElement | null>(null);
+  const pathname = usePathname();
+
+  const isActive = (href: string) =>
+    href === '/' ? pathname === '/' : pathname.startsWith(href.split('?')[0]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
+  useEffect(() => {
+    if (!shellRef.current) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const ctx = gsap.context(() => {
+      // Reversible tween: the contact bar slides off the top, nav rises to the edge.
+      const collapse = gsap.to(shellRef.current, {
+        y: -48,
+        duration: 0.3,
+        ease: 'power2.out',
+        paused: true,
+      });
+
+      const mm = gsap.matchMedia();
+
+      // Only collapse on desktop; mobile keeps the bar pinned.
+      mm.add('(min-width: 900px)', () => {
+        const trigger = ScrollTrigger.create({
+          start: 0,
+          end: 'max',
+          onUpdate: (self) => {
+            if (self.scroll() <= 64) collapse.reverse();
+            else if (self.direction === 1) collapse.play();
+            else collapse.reverse();
+          },
+        });
+
+        return () => {
+          trigger.kill();
+          collapse.reverse();
+        };
+      });
+    }, shellRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <>
-      {/* Top Bar */}
       <Box
+        aria-hidden="true"
         sx={{
-          backgroundColor: '#001f3a',
-          color: 'white',
-          py: 1,
-          display: { xs: 'none', md: 'block' },
+          height: { xs: 64, md: 112 },
+        }}
+      />
+      <Box
+        ref={shellRef}
+        sx={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: (theme) => theme.zIndex.modal + 1,
+          width: '100%',
+          isolation: 'isolate',
+          overflow: 'hidden',
+          backgroundColor: '#00243f',
+          willChange: 'transform',
         }}
       >
-        <Container maxWidth="lg">
-          <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "center" }}>
-            <Stack direction="row" spacing={3} sx={{ alignItems: "center" }}>
-              <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
-                <EmailIcon sx={{ fontSize: 16, color: '#e08355' }} />
-                <Typography variant="body2" sx={{ fontSize: '0.85rem' }}>
-                  info@makanit.ae
-                </Typography>
+        {/* Top Bar */}
+        <Box
+          sx={{
+            backgroundColor: '#001f3a',
+            color: 'rgba(255,255,255,0.85)',
+            height: 48,
+            borderBottom: '1px solid rgba(255,255,255,0.06)',
+            display: { xs: 'none', md: 'block' },
+          }}
+        >
+          <Container maxWidth="lg" sx={{ height: '100%' }}>
+            <Stack
+              direction="row"
+              sx={{ height: '100%', justifyContent: 'space-between', alignItems: 'center' }}
+            >
+              <Stack direction="row" spacing={3} sx={{ alignItems: 'center' }}>
+                <Stack
+                  component="a"
+                  href="mailto:info@makanit.ae"
+                  direction="row"
+                  spacing={1}
+                  sx={{
+                    alignItems: 'center',
+                    textDecoration: 'none',
+                    color: 'inherit',
+                    transition: 'color 0.2s ease',
+                    '&:hover': { color: '#e08355' },
+                  }}
+                >
+                  <EmailIcon sx={{ fontSize: 16, color: '#e08355' }} />
+                  <Typography variant="body2" sx={{ fontSize: '0.85rem' }}>
+                    info@makanit.ae
+                  </Typography>
+                </Stack>
+                <Stack
+                  component="a"
+                  href="tel:+971501234567"
+                  direction="row"
+                  spacing={1}
+                  sx={{
+                    alignItems: 'center',
+                    textDecoration: 'none',
+                    color: 'inherit',
+                    transition: 'color 0.2s ease',
+                    '&:hover': { color: '#e08355' },
+                  }}
+                >
+                  <PhoneIcon sx={{ fontSize: 16, color: '#e08355' }} />
+                  <Typography variant="body2" sx={{ fontSize: '0.85rem' }}>
+                    +971 50 123 4567
+                  </Typography>
+                </Stack>
               </Stack>
-              <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
-                <PhoneIcon sx={{ fontSize: 16, color: '#e08355' }} />
-                <Typography variant="body2" sx={{ fontSize: '0.85rem' }}>
-                  +971 50 123 4567
-                </Typography>
-              </Stack>
-            </Stack>
-            <Stack direction="row" spacing={2} sx={{ alignItems: "center" }}>
-              <Link href="/ar" passHref legacyBehavior>
+              <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
                 <Button
+                  component={Link}
+                  href="/ar"
                   size="small"
-                  startIcon={<LanguageIcon />}
-                  sx={{ color: 'white', fontSize: '0.8rem' }}
+                  startIcon={<LanguageIcon sx={{ fontSize: '1rem !important' }} />}
+                  sx={{
+                    color: 'white',
+                    fontSize: '0.8rem',
+                    textTransform: 'none',
+                    borderRadius: 999,
+                    px: 1.5,
+                    border: '1px solid rgba(255,255,255,0.25)',
+                    transition: 'all 0.2s ease',
+                    '&:hover': {
+                      borderColor: '#e08355',
+                      color: '#e08355',
+                      backgroundColor: 'rgba(224,131,85,0.08)',
+                    },
+                  }}
                 >
                   Arabic
                 </Button>
-              </Link>
+              </Stack>
             </Stack>
-          </Stack>
-        </Container>
-      </Box>
+          </Container>
+        </Box>
 
-      {/* Main Header */}
-      <AppBar
-        position="sticky"
-        elevation={0}
-        sx={{
-          backgroundColor: '#00243f',
-          boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-        }}
-      >
-        <Container maxWidth="lg">
-          <Toolbar disableGutters sx={{ justifyContent: 'space-between', py: 0.5 }}>
-            {/* Logo */}
-            <Link href="/" passHref legacyBehavior>
+        {/* Main Header */}
+        <AppBar
+          position="static"
+          elevation={0}
+          sx={{
+            backgroundColor: '#00243f',
+            boxShadow: '0 6px 24px rgba(0,0,0,0.28)',
+            width: '100%',
+            borderBottom: '1px solid rgba(255,255,255,0.06)',
+          }}
+        >
+          <Container maxWidth="lg">
+            <Toolbar disableGutters sx={{ justifyContent: 'space-between', py: 0.5 }}>
+              {/* Logo */}
               <Box
-                component="a"
+                component={Link}
+                href="/"
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
                   textDecoration: 'none',
                   cursor: 'pointer',
+                  position: 'relative',
+                  zIndex: 1,
+                  transition: 'opacity 0.2s ease',
+                  '&:hover': { opacity: 0.85 },
                 }}
               >
                 <Image
-                  src="/images/makani-logo.png"
+                  src="/logoWhite.png"
                   alt="Makani Travel & Tourism"
                   width={130}
                   height={55}
@@ -140,49 +250,74 @@ export default function Header() {
                   priority
                 />
               </Box>
-            </Link>
 
-            {/* Desktop Navigation */}
-            {!isMobile && (
-              <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
-                {navItems.map((item) => (
-                  <Link key={item.label} href={item.href} passHref legacyBehavior>
+              {/* Desktop Navigation */}
+              <Stack
+                direction="row"
+                spacing={0.5}
+                sx={{ alignItems: 'center', display: { xs: 'none', md: 'flex' } }}
+              >
+                {navItems.map((item) => {
+                  const active = isActive(item.href);
+                  return (
                     <Button
-                      component="a"
+                      key={item.label}
+                      component={Link}
+                      href={item.href}
+                      disableRipple
                       sx={{
-                        color: 'white',
+                        color: active ? '#e08355' : 'rgba(255,255,255,0.92)',
                         fontWeight: 500,
                         fontSize: '0.9rem',
                         px: 1.5,
                         py: 1,
+                        position: 'relative',
+                        textTransform: 'none',
+                        letterSpacing: 0.2,
+                        transition: 'color 0.2s ease',
+                        whiteSpace: 'nowrap',
+                        '&::after': {
+                          content: '""',
+                          position: 'absolute',
+                          left: 12,
+                          right: 12,
+                          bottom: 6,
+                          height: 2,
+                          borderRadius: 2,
+                          backgroundColor: '#e08355',
+                          transform: active ? 'scaleX(1)' : 'scaleX(0)',
+                          transformOrigin: 'left',
+                          transition: 'transform 0.25s ease',
+                        },
                         '&:hover': {
                           color: '#e08355',
                           backgroundColor: 'transparent',
                         },
-                        whiteSpace: 'nowrap',
+                        '&:hover::after': {
+                          transform: 'scaleX(1)',
+                        },
                       }}
                     >
                       {item.label}
                     </Button>
-                  </Link>
-                ))}
+                  );
+                })}
               </Stack>
-            )}
 
-            {/* Mobile Menu Button */}
-            {isMobile && (
+              {/* Mobile Menu Button */}
               <IconButton
                 color="inherit"
                 aria-label="open drawer"
                 edge="start"
                 onClick={handleDrawerToggle}
+                sx={{ display: { xs: 'inline-flex', md: 'none' } }}
               >
                 {mobileOpen ? <CloseIcon /> : <MenuIcon />}
               </IconButton>
-            )}
-          </Toolbar>
-        </Container>
-      </AppBar>
+            </Toolbar>
+          </Container>
+        </AppBar>
+      </Box>
 
       {/* Mobile Drawer */}
       <Drawer
@@ -192,25 +327,57 @@ export default function Header() {
         ModalProps={{ keepMounted: true }}
         slotProps={{
           paper: {
-            sx: { width: 280, backgroundColor: '#00243f', color: 'white' },
+            sx: {
+              width: 280,
+              backgroundColor: '#00243f',
+              color: 'white',
+              display: 'flex',
+              flexDirection: 'column',
+            },
           },
         }}
       >
-        <Box sx={{ p: 2, textAlign: 'right' }}>
+        <Box
+          sx={{
+            p: 2,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Image
+            src="/logoWhite.png"
+            alt="Makani Travel & Tourism"
+            width={110}
+            height={46}
+            style={{ objectFit: 'contain' }}
+          />
           <IconButton onClick={handleDrawerToggle} sx={{ color: 'white' }}>
             <CloseIcon />
           </IconButton>
         </Box>
         <Divider sx={{ backgroundColor: 'rgba(255,255,255,0.1)' }} />
-        <List>
-          {navItems.map((item) => (
-            <ListItem key={item.label} disablePadding>
-              <Link href={item.href} passHref legacyBehavior>
+        <List sx={{ px: 1, py: 1.5 }}>
+          {navItems.map((item) => {
+            const active = isActive(item.href);
+            return (
+              <ListItem key={item.label} disablePadding sx={{ mb: 0.5 }}>
                 <ListItemButton
-                  component="a"
+                  component={Link}
+                  href={item.href}
                   onClick={handleDrawerToggle}
                   sx={{
-                    '&:hover': { color: '#e08355' },
+                    borderRadius: 1.5,
+                    color: active ? '#e08355' : 'rgba(255,255,255,0.92)',
+                    borderLeft: '3px solid',
+                    borderColor: active ? '#e08355' : 'transparent',
+                    backgroundColor: active ? 'rgba(224,131,85,0.08)' : 'transparent',
+                    transition: 'all 0.2s ease',
+                    '&:hover': {
+                      color: '#e08355',
+                      backgroundColor: 'rgba(224,131,85,0.08)',
+                      borderColor: '#e08355',
+                    },
                   }}
                 >
                   <ListItemText
@@ -218,10 +385,37 @@ export default function Header() {
                     slotProps={{ primary: { sx: { fontWeight: 500 } } }}
                   />
                 </ListItemButton>
-              </Link>
-            </ListItem>
-          ))}
+              </ListItem>
+            );
+          })}
         </List>
+        <Divider sx={{ backgroundColor: 'rgba(255,255,255,0.1)', mt: 'auto' }} />
+        <Stack spacing={1.25} sx={{ p: 2 }}>
+          <Stack
+            component="a"
+            href="mailto:info@makanit.ae"
+            direction="row"
+            spacing={1}
+            sx={{ alignItems: 'center', textDecoration: 'none', color: 'rgba(255,255,255,0.85)' }}
+          >
+            <EmailIcon sx={{ fontSize: 16, color: '#e08355' }} />
+            <Typography variant="body2" sx={{ fontSize: '0.85rem' }}>
+              info@makanit.ae
+            </Typography>
+          </Stack>
+          <Stack
+            component="a"
+            href="tel:+971501234567"
+            direction="row"
+            spacing={1}
+            sx={{ alignItems: 'center', textDecoration: 'none', color: 'rgba(255,255,255,0.85)' }}
+          >
+            <PhoneIcon sx={{ fontSize: 16, color: '#e08355' }} />
+            <Typography variant="body2" sx={{ fontSize: '0.85rem' }}>
+              +971 50 123 4567
+            </Typography>
+          </Stack>
+        </Stack>
       </Drawer>
     </>
   );

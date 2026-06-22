@@ -54,9 +54,9 @@ export default function Destinations() {
           <Grid container spacing={3}>
             {destinations.map((dest) => (
               <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={dest.slug}>
-                <Link href={`/destination/${dest.slug}`} passHref legacyBehavior>
-                  <Card
-                    component="a"
+                <Card
+                  component={Link}
+                  href={`/destination/${dest.slug}`}
                     sx={{
                       borderRadius: 3,
                       overflow: 'hidden',
@@ -106,8 +106,7 @@ export default function Destinations() {
                         View Packages →
                       </Button>
                     </CardContent>
-                  </Card>
-                </Link>
+                </Card>
               </Grid>
             ))}
           </Grid>

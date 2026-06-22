@@ -1,9 +1,12 @@
 'use client';
 
 import { Box, Container, Typography, Button } from '@mui/material';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Image from 'next/image';
 import Link from 'next/link';
 import { destinations } from '@/data/destinations';
+import SectionHeading from './SectionHeading';
 
 const bentoLayout = [
   // [slug, colSpan, rowSpan]
@@ -25,31 +28,18 @@ export default function Destinations() {
   const getDest = (slug: string) => displayDests.find((d) => d.slug === slug);
 
   return (
-    <Box sx={{ py: { xs: 6, md: 8 }, backgroundColor: '#fff' }}>
+    <Box
+      sx={{
+        py: { xs: 6, md: 8 },
+        background: 'linear-gradient(180deg, #ffffff 0%, #f7f9fc 100%)',
+      }}
+    >
       <Container maxWidth="lg">
-        <Typography
-          variant="h2"
-          sx={{
-            textAlign: 'center',
-            fontSize: { xs: '1.8rem', md: '2.5rem' },
-            mb: 1,
-            color: '#00243f',
-          }}
-        >
-          Popular Destinations
-        </Typography>
-        <Typography
-          variant="body1"
-          sx={{
-            textAlign: 'center',
-            color: '#666',
-            mb: 5,
-            maxWidth: 600,
-            mx: 'auto',
-          }}
-        >
-          Explore our most sought-after travel destinations around the world
-        </Typography>
+        <SectionHeading
+          eyebrow="Explore the World"
+          title="Popular Destinations"
+          subtitle="Explore our most sought-after travel destinations around the world"
+        />
 
         {/* Mobile: horizontal scroll */}
         <Box
@@ -74,85 +64,88 @@ export default function Destinations() {
             if (!dest) return null;
 
             return (
-              <Link
+              <Box
                 key={dest.slug}
+                component={Link}
                 href={`/destination/${dest.slug}`}
-                passHref
-                legacyBehavior
+                sx={{
+                  position: 'relative',
+                  borderRadius: { xs: 2, md: 2 },
+                  overflow: 'hidden',
+                  cursor: 'pointer',
+                  textDecoration: 'none',
+                  display: 'flex',
+                  alignItems: 'flex-end',
+                  flex: { xs: '0 0 240px', sm: 'none' },
+                  scrollSnapAlign: { xs: 'start', sm: 'none' },
+                  gridColumn: {
+                    sm: item.colSpan > 1 ? 'span 2' : 'span 1',
+                    md: `span ${item.colSpan}`,
+                  },
+                  gridRow: {
+                    sm: item.rowSpan > 1 ? `span ${item.rowSpan}` : 'span 1',
+                    md: `span ${item.rowSpan}`,
+                  },
+                  minHeight: {
+                    xs: 280,
+                    sm: item.rowSpan > 1 ? 320 : 200,
+                    md: 'auto',
+                  },
+                  '&::after': {
+                    content: '""',
+                    position: 'absolute',
+                    inset: 0,
+                    background:
+                      'linear-gradient(transparent 40%, rgba(0,36,63,0.85))',
+                    zIndex: 1,
+                    transition: 'opacity 0.3s',
+                  },
+                  '&:hover::after': {
+                    background:
+                      'linear-gradient(transparent 20%, rgba(0,36,63,0.95))',
+                  },
+                  '&:hover .dest-image': {
+                    transform: 'scale(1.08)',
+                  },
+                  '&:hover .dest-name': {
+                    color: '#e08355',
+                  },
+                  '&:hover .dest-cta': {
+                    opacity: 1,
+                    transform: 'translateY(0)',
+                  },
+                  border: '1px solid rgba(255,255,255,0.08)',
+                  boxShadow: '0 14px 40px rgba(0,36,63,0.12)',
+                }}
               >
                 <Box
-                  component="a"
+                  className="dest-image"
                   sx={{
-                    position: 'relative',
-                    borderRadius: { xs: 2.5, md: 3 },
-                    overflow: 'hidden',
-                    cursor: 'pointer',
-                    textDecoration: 'none',
-                    display: 'flex',
-                    alignItems: 'flex-end',
-                    flex: { xs: '0 0 240px', sm: 'none' },
-                    scrollSnapAlign: { xs: 'start', sm: 'none' },
-                    gridColumn: {
-                      sm: item.colSpan > 1 ? 'span 2' : 'span 1',
-                      md: `span ${item.colSpan}`,
-                    },
-                    gridRow: {
-                      sm: item.rowSpan > 1 ? `span ${item.rowSpan}` : 'span 1',
-                      md: `span ${item.rowSpan}`,
-                    },
-                    minHeight: {
-                      xs: 280,
-                      sm: item.rowSpan > 1 ? 320 : 200,
-                      md: 'auto',
-                    },
-                    '&::after': {
-                      content: '""',
-                      position: 'absolute',
-                      inset: 0,
-                      background:
-                        'linear-gradient(transparent 40%, rgba(0,36,63,0.85))',
-                      zIndex: 1,
-                      transition: 'opacity 0.3s',
-                    },
-                    '&:hover::after': {
-                      background:
-                        'linear-gradient(transparent 20%, rgba(0,36,63,0.95))',
-                    },
-                    '&:hover .dest-image': {
-                      transform: 'scale(1.08)',
-                    },
-                    '&:hover .dest-name': {
-                      color: '#e08355',
-                    },
+                    position: 'absolute',
+                    inset: 0,
+                    transition: 'transform 0.5s ease',
                   }}
                 >
-                  {/* Background Image */}
+                  <Image
+                    src={dest.image}
+                    alt={dest.name}
+                    fill
+                    style={{ objectFit: 'cover' }}
+                    sizes="(max-width: 600px) 50vw, 25vw"
+                  />
+                </Box>
+                <Box
+                  sx={{
+                    position: 'relative',
+                    zIndex: 2,
+                    p: { xs: 2, md: 3 },
+                    width: '100%',
+                  }}
+                >
                   <Box
-                    className="dest-image"
-                    sx={{
-                      position: 'absolute',
-                      inset: 0,
-                      transition: 'transform 0.5s ease',
-                    }}
+                    sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 0.25 }}
                   >
-                    <Image
-                      src={dest.image}
-                      alt={dest.name}
-                      fill
-                      style={{ objectFit: 'cover' }}
-                      sizes="(max-width: 600px) 50vw, 25vw"
-                    />
-                  </Box>
-
-                  {/* Content */}
-                  <Box
-                    sx={{
-                      position: 'relative',
-                      zIndex: 2,
-                      p: { xs: 2, md: 3 },
-                      width: '100%',
-                    }}
-                  >
+                    <LocationOnIcon sx={{ color: '#e08355', fontSize: 16 }} />
                     <Typography
                       className="dest-name"
                       variant="h5"
@@ -163,53 +156,73 @@ export default function Destinations() {
                           xs: '1rem',
                           sm: item.colSpan > 1 ? '1.5rem' : '1.1rem',
                         },
-                        mb: item.rowSpan > 1 ? 0.5 : 0,
                         transition: 'color 0.3s',
+                        textShadow: '0 2px 8px rgba(0,0,0,0.35)',
                       }}
                     >
                       {dest.name}
                     </Typography>
-                    {item.slug === 'maldives' && (
-                      <Typography
-                        variant="body2"
-                        sx={{
-                          color: 'rgba(255,255,255,0.8)',
-                          maxWidth: 280,
-                          display: { xs: 'block', sm: 'block' },
-                          fontSize: { xs: '0.82rem', md: '0.9rem' },
-                        }}
-                      >
-                        {dest.description}
-                      </Typography>
-                    )}
+                  </Box>
+                  {item.slug === 'maldives' && (
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        color: 'rgba(255,255,255,0.85)',
+                        maxWidth: 280,
+                        display: { xs: 'block', sm: 'block' },
+                        fontSize: { xs: '0.82rem', md: '0.9rem' },
+                        mb: 1,
+                      }}
+                    >
+                      {dest.description}
+                    </Typography>
+                  )}
+                  <Box
+                    className="dest-cta"
+                    sx={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 0.5,
+                      mt: 0.75,
+                      color: '#e08355',
+                      fontWeight: 600,
+                      fontSize: '0.8rem',
+                      opacity: { xs: 1, md: 0 },
+                      transform: { xs: 'none', md: 'translateY(8px)' },
+                      transition: 'opacity 0.3s ease, transform 0.3s ease',
+                    }}
+                  >
+                    Explore
+                    <ArrowForwardIcon sx={{ fontSize: 16 }} />
                   </Box>
                 </Box>
-              </Link>
+              </Box>
             );
           })}
         </Box>
 
         <Box sx={{ textAlign: 'center', mt: 4 }}>
-          <Link href="/destination" passHref legacyBehavior>
-            <Button
-              component="a"
-              variant="outlined"
-              size="large"
-              sx={{
-                px: 4,
-                py: 1.5,
+          <Button
+            component={Link}
+            href="/destination"
+            variant="outlined"
+            size="large"
+            sx={{
+              px: 4,
+              py: 1.5,
+              borderColor: 'rgba(0,36,63,0.18)',
+              color: '#00243f',
+              backgroundColor: 'white',
+              fontWeight: 600,
+              '&:hover': {
+                backgroundColor: '#00243f',
+                color: 'white',
                 borderColor: '#00243f',
-                color: '#00243f',
-                fontWeight: 600,
-                '&:hover': {
-                  backgroundColor: '#00243f',
-                  color: 'white',
-                },
-              }}
-            >
-              View All Destinations
-            </Button>
-          </Link>
+              },
+            }}
+          >
+            View All Destinations
+          </Button>
         </Box>
       </Container>
     </Box>

@@ -30,12 +30,12 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: '"Cairo", sans-serif',
-    h1: { fontWeight: 700 },
-    h2: { fontWeight: 700 },
-    h3: { fontWeight: 600 },
-    h4: { fontWeight: 600 },
-    h5: { fontWeight: 500 },
-    h6: { fontWeight: 500 },
+    h1: { fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1.05 },
+    h2: { fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.1 },
+    h3: { fontWeight: 700, lineHeight: 1.15 },
+    h4: { fontWeight: 700, lineHeight: 1.2 },
+    h5: { fontWeight: 600, lineHeight: 1.25 },
+    h6: { fontWeight: 600, lineHeight: 1.3 },
     button: {
       textTransform: 'none',
       fontWeight: 600,
@@ -49,8 +49,30 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 8,
-          padding: '10px 24px',
+          padding: '11px 24px',
           fontSize: '0.95rem',
+        },
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          borderRadius: 8,
+        },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: 8,
+          overflow: 'hidden',
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          borderRadius: 8,
         },
       },
     },

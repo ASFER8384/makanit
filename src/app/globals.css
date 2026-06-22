@@ -21,6 +21,13 @@ body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+  background:
+    radial-gradient(circle at top, rgba(224, 131, 85, 0.08), transparent 32%),
+    linear-gradient(180deg, #ffffff 0%, #f7f9fc 100%);
+  color: var(--foreground);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 a {

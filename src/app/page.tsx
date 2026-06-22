@@ -4,16 +4,27 @@ import Stats from "@/components/Stats";
 import AboutSection from "@/components/AboutSection";
 import Destinations from "@/components/Destinations";
 import Reviews from "@/components/Reviews";
+import Reveal from "@/components/Reveal";
 
 export default function Home() {
   return (
     <>
       <Hero />
-      <Services />
-      <AboutSection />
-      <Stats />
-      <Destinations />
-      <Reviews />
+      <Reveal>
+        <Services />
+      </Reveal>
+      <Reveal>
+        <AboutSection />
+      </Reveal>
+      <Reveal>
+        <Stats />
+      </Reveal>
+      <Reveal>
+        <Destinations />
+      </Reveal>
+      <Reveal>
+        <Reviews />
+      </Reveal>
     </>
   );
 }

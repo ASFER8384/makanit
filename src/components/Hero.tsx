@@ -45,9 +45,33 @@ export default function Hero() {
         alignItems: 'center',
         justifyContent: 'center',
         overflow: 'hidden',
-        background: '#001a30',
+        background:
+          'radial-gradient(circle at top left, rgba(224,131,85,0.12), transparent 34%), #001a30',
       }}
     >
+      <Box
+        sx={{
+          position: 'absolute',
+          inset: 'auto -10% -18% auto',
+          width: { xs: 240, md: 420 },
+          height: { xs: 240, md: 420 },
+          borderRadius: '50%',
+          background: 'rgba(224,131,85,0.12)',
+          filter: 'blur(10px)',
+        }}
+      />
+      <Box
+        sx={{
+          position: 'absolute',
+          inset: '-8% auto auto -8%',
+          width: { xs: 180, md: 300 },
+          height: { xs: 180, md: 300 },
+          borderRadius: '50%',
+          background: 'rgba(255,255,255,0.05)',
+          filter: 'blur(6px)',
+        }}
+      />
+
       {/* Slideshow Background */}
       {slides.map((slide, i) => (
         <Box
@@ -61,21 +85,34 @@ export default function Hero() {
               content: '""',
               position: 'absolute',
               inset: 0,
+              zIndex: 1,
               background:
-                i === activeIndex
-                  ? 'linear-gradient(135deg, rgba(0,36,63,0.75) 0%, rgba(0,26,48,0.85) 100%)'
-                  : 'linear-gradient(135deg, rgba(0,36,63,0.75) 0%, rgba(0,26,48,0.85) 100%)',
+                'linear-gradient(135deg, rgba(0,36,63,0.75) 0%, rgba(0,26,48,0.85) 100%)',
             },
           }}
         >
-          <Image
-            src={slide.image}
-            alt=""
-            fill
-            style={{ objectFit: 'cover' }}
-            priority={i === 0}
-            sizes="100vw"
-          />
+          {/* Ken Burns zoom — slow scale while the slide is active */}
+          <Box
+            sx={{
+              position: 'absolute',
+              inset: 0,
+              transform: i === activeIndex ? 'scale(1.12)' : 'scale(1)',
+              transition: 'transform 6s ease-out',
+              '@media (prefers-reduced-motion: reduce)': {
+                transform: 'none',
+                transition: 'none',
+              },
+            }}
+          >
+            <Image
+              src={slide.image}
+              alt=""
+              fill
+              style={{ objectFit: 'cover' }}
+              priority={i === 0}
+              sizes="100vw"
+            />
+          </Box>
         </Box>
       ))}
 
@@ -100,7 +137,7 @@ export default function Hero() {
             alignItems: 'center',
             gap: 1,
             backgroundColor: 'rgba(224,131,85,0.15)',
-            borderRadius: 50,
+            borderRadius: 12,
             px: { xs: 1.5, md: 2.5 },
             py: 0.6,
             mb: 1.5,
@@ -118,7 +155,18 @@ export default function Hero() {
         </Box>
 
         {/* Title */}
-        <Box sx={{ mb: { xs: 2.5, md: 3 }, width: '100%' }}>
+        <Box
+          key={`title-${activeIndex}`}
+          sx={{
+            mb: { xs: 2.5, md: 3 },
+            width: '100%',
+            animation: 'heroTextIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) both',
+            '@keyframes heroTextIn': {
+              '0%': { opacity: 0, transform: 'translateY(18px)' },
+              '100%': { opacity: 1, transform: 'translateY(0)' },
+            },
+          }}
+        >
           <Typography
             variant="h1"
             sx={{
@@ -136,7 +184,14 @@ export default function Hero() {
         </Box>
 
         {/* Subtitle */}
-        <Box sx={{ mb: { xs: 2, md: 3 }, width: '100%' }}>
+        <Box
+          key={`subtitle-${activeIndex}`}
+          sx={{
+            mb: { xs: 2, md: 3 },
+            width: '100%',
+            animation: 'heroTextIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both',
+          }}
+        >
           <Typography
             variant="h6"
             sx={{
@@ -152,14 +207,45 @@ export default function Hero() {
           </Typography>
         </Box>
 
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: 1.5,
+            justifyContent: 'center',
+            mb: { xs: 2.5, md: 3.5 },
+          }}
+        >
+          <Button component={Link} href="/packages" variant="contained" color="secondary">
+            Explore Packages
+          </Button>
+          <Button
+            component={Link}
+            href="/contact"
+            variant="outlined"
+            sx={{
+              color: 'white',
+              borderColor: 'rgba(255,255,255,0.35)',
+              '&:hover': {
+                borderColor: 'white',
+                backgroundColor: 'rgba(255,255,255,0.06)',
+              },
+            }}
+          >
+            Contact Us
+          </Button>
+        </Box>
+
         {/* Search Bar — stacked on mobile, row on desktop */}
         <Box
           sx={{
             display: 'flex',
             alignItems: 'center',
-            backgroundColor: 'white',
-            borderRadius: { xs: 4, md: 50 },
-            boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
+            backgroundColor: 'rgba(255,255,255,0.96)',
+            borderRadius: { xs: 3, md: 3 },
+            boxShadow: '0 24px 70px rgba(0,0,0,0.28)',
+            border: '1px solid rgba(255,255,255,0.7)',
+            backdropFilter: 'blur(14px)',
             maxWidth: 800,
             width: '100%',
             mx: 'auto',
@@ -179,6 +265,9 @@ export default function Hero() {
               py: { xs: 1.5, md: 2 },
               textAlign: 'left',
               width: { xs: '100%', md: 'auto' },
+              cursor: 'pointer',
+              transition: 'background-color 0.2s ease',
+              '&:hover': { backgroundColor: 'rgba(224,131,85,0.06)' },
               borderBottom: { xs: '1px solid #eee', md: 'none' },
               borderRight: { md: '1px solid #e8e8e8' },
             }}
@@ -209,6 +298,9 @@ export default function Hero() {
               py: { xs: 1.5, md: 2 },
               textAlign: 'left',
               width: { xs: '100%', md: 'auto' },
+              cursor: 'pointer',
+              transition: 'background-color 0.2s ease',
+              '&:hover': { backgroundColor: 'rgba(224,131,85,0.06)' },
               borderBottom: { xs: '1px solid #eee', md: 'none' },
               borderRight: { md: '1px solid #e8e8e8' },
             }}
@@ -239,6 +331,9 @@ export default function Hero() {
               py: { xs: 1.5, md: 2 },
               textAlign: 'left',
               width: { xs: '100%', md: 'auto' },
+              cursor: 'pointer',
+              transition: 'background-color 0.2s ease',
+              '&:hover': { backgroundColor: 'rgba(224,131,85,0.06)' },
               borderBottom: { xs: '1px solid #eee', md: 'none' },
             }}
           >
@@ -258,32 +353,31 @@ export default function Hero() {
           </Box>
 
           {/* Search Icon (instead of button) */}
-          <Link href="/packages" passHref legacyBehavior>
-            <Box
-              component="a"
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: '#e08355',
-                width: { xs: '100%', md: 48 },
-                py: { xs: 1.5, md: 0 },
-                height: { md: 48 },
-                borderRadius: 50,
-                mr: { md: 1 },
-                mt: { xs: 1, md: 0 },
-                cursor: 'pointer',
-                transition: 'background 0.2s',
-                '&:hover': {
-                  backgroundColor: '#d07345',
-                },
-              }}
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
-              </svg>
-            </Box>
-          </Link>
+          <Box
+            component={Link}
+            href="/packages"
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: '#e08355',
+              width: { xs: '100%', md: 48 },
+              py: { xs: 1.5, md: 0 },
+              height: { md: 48 },
+              borderRadius: 12,
+              mr: { md: 1 },
+              mt: { xs: 1, md: 0 },
+              cursor: 'pointer',
+              transition: 'background 0.2s',
+              '&:hover': {
+                backgroundColor: '#d07345',
+              },
+            }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+            </svg>
+          </Box>
         </Box>
 
         {/* Slide Indicators */}
@@ -300,10 +394,10 @@ export default function Hero() {
               key={i}
               onClick={() => setActiveIndex(i)}
               sx={{
-                width: i === activeIndex ? 24 : 8,
-                height: 8,
-                borderRadius: 5,
-                backgroundColor: i === activeIndex ? '#e08355' : 'rgba(255,255,255,0.3)',
+              width: i === activeIndex ? 24 : 8,
+              height: 8,
+                borderRadius: 3,
+              backgroundColor: i === activeIndex ? '#e08355' : 'rgba(255,255,255,0.3)',
                 cursor: 'pointer',
                 transition: 'all 0.4s ease',
                 '&:hover': {

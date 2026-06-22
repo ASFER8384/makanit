@@ -19,6 +19,7 @@ import HotelIcon from '@mui/icons-material/Hotel';
 import RestoreIcon from '@mui/icons-material/Restore';
 import Link from 'next/link';
 import { destinations } from '@/data/destinations';
+import SectionHeading from '@/components/SectionHeading';
 
 const packages = [
   {
@@ -57,11 +58,9 @@ export default function DestinationDetail() {
           <Typography variant="body1" sx={{ color: '#666', mb: 3 }}>
             The destination you&apos;re looking for doesn&apos;t exist.
           </Typography>
-          <Link href="/destination" passHref legacyBehavior>
-            <Button component="a" variant="contained" color="secondary">
-              View All Destinations
-            </Button>
-          </Link>
+          <Button component={Link} href="/destination" variant="contained" color="secondary">
+            View All Destinations
+          </Button>
         </Container>
       </Box>
     );
@@ -124,19 +123,12 @@ export default function DestinationDetail() {
       <Container maxWidth="lg">
         <Box sx={{ py: { xs: 6, md: 8 } }}>
           {/* Packages */}
-          <Typography
-            variant="h2"
-            sx={{
-              fontSize: { xs: '1.8rem', md: '2.2rem' },
-              mb: 1,
-              color: '#00243f',
-            }}
-          >
-            Travel Packages to {destination.name}
-          </Typography>
-          <Typography variant="body1" sx={{ color: '#666', mb: 4 }}>
-            Choose the perfect package for your trip
-          </Typography>
+          <SectionHeading
+            eyebrow="Tailored For You"
+            title={`Travel Packages to ${destination.name}`}
+            subtitle="Choose the perfect package for your trip"
+            align="left"
+          />
 
           <Grid container spacing={3}>
             {packages.map((pkg, index) => (
@@ -197,11 +189,9 @@ export default function DestinationDetail() {
 
           {/* Back button */}
           <Box sx={{ textAlign: 'center', mt: 4 }}>
-            <Link href="/destination" passHref legacyBehavior>
-              <Button variant="outlined" sx={{ px: 4, borderColor: '#00243f', color: '#00243f' }}>
+              <Button component={Link} href="/destination" variant="outlined" sx={{ px: 4, borderColor: '#00243f', color: '#00243f' }}>
                 ← All Destinations
               </Button>
-            </Link>
           </Box>
         </Box>
       </Container>
