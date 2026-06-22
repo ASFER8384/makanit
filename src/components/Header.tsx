@@ -197,7 +197,7 @@ export default function Header() {
                     textTransform: 'none',
                     borderRadius: 999,
                     px: 1.5,
-                    border: '1px solid rgba(255,255,255,0.25)',
+                    // border: '1px solid rgba(255,255,255,0.25)',
                     transition: 'all 0.2s ease',
                     '&:hover': {
                       borderColor: '#e08355',
