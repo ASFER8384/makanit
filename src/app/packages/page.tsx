@@ -36,7 +36,7 @@ const packages: Package[] = [
   {
     title: 'Maldives Paradise Escape',
     destination: 'Maldives',
-    image: 'https://makanit.ae/wp-content/uploads/2025/11/holiday-inn-resort-kandooma-maldives.jpg',
+    image: '/images/wp/holiday-inn-resort-kandooma-maldives.jpg',
     category: 'Summer',
     description: '5 nights in a luxury overwater villa with all-inclusive benefits.',
     price: 'AED 4,999',
@@ -44,7 +44,7 @@ const packages: Package[] = [
   {
     title: 'Turkey Discovery Tour',
     destination: 'Turkey',
-    image: 'https://makanit.ae/wp-content/uploads/2025/03/0203-0245_istanbul-1024x666.jpg',
+    image: '/images/wp/0203-0245_istanbul-1024x666.jpg',
     category: 'Summer',
     description: '7 days exploring Istanbul, Cappadocia, and Antalya.',
     price: 'AED 3,499',
@@ -52,7 +52,7 @@ const packages: Package[] = [
   {
     title: 'Bali Honeymoon Special',
     destination: 'Bali',
-    image: 'https://makanit.ae/wp-content/uploads/2025/12/12839.jpg',
+    image: '/images/wp/12839.jpg',
     category: 'Honeymoon',
     description: '6 nights romantic getaway with spa and sunset dinners.',
     price: 'AED 4,299',
@@ -60,7 +60,7 @@ const packages: Package[] = [
   {
     title: 'Umrah Package - 10 Days',
     destination: 'Makkah & Madinah',
-    image: 'https://makanit.ae/wp-content/uploads/2025/01/1709136361_7wMzpyT0uX6wDvfWFVqg32kHd.webp',
+    image: '/images/wp/1709136361_7wMzpyT0uX6wDvfWFVqg32kHd.webp',
     category: 'Umrah',
     description: 'Complete Umrah package with 5-star hotel and transport.',
     price: 'AED 3,999',
@@ -68,7 +68,7 @@ const packages: Package[] = [
   {
     title: 'Eid Al-Adha in Azerbaijan',
     destination: 'Azerbaijan',
-    image: 'https://makanit.ae/wp-content/uploads/2025/01/Azerbaijan.jpg',
+    image: '/images/wp/Azerbaijan.jpg',
     category: 'Eid',
     description: '5 nights in Baku with city tour and mountain excursion.',
     price: 'AED 2,999',
@@ -76,7 +76,7 @@ const packages: Package[] = [
   {
     title: 'Thailand Beach Holiday',
     destination: 'Thailand',
-    image: 'https://makanit.ae/wp-content/uploads/2025/06/bangkok_city-1024x681.jpg',
+    image: '/images/wp/bangkok_city-1024x681.jpg',
     category: 'Summer',
     description: '7 nights in Phuket and Bangkok with island tours.',
     price: 'AED 3,799',
@@ -84,7 +84,7 @@ const packages: Package[] = [
   {
     title: 'Egypt Nile & Red Sea',
     destination: 'Egypt',
-    image: 'https://makanit.ae/wp-content/uploads/2024/09/orig-1024x683.jpeg',
+    image: '/images/wp/orig-1024x683.jpeg',
     category: 'Eid',
     description: '8 days Cairo, Nile cruise, and Sharm El-Sheikh.',
     price: 'AED 3,299',
@@ -92,7 +92,7 @@ const packages: Package[] = [
   {
     title: 'Maldives Honeymoon Bliss',
     destination: 'Maldives',
-    image: 'https://makanit.ae/wp-content/uploads/2025/11/holiday-inn-resort-kandooma-maldives.jpg',
+    image: '/images/wp/holiday-inn-resort-kandooma-maldives.jpg',
     category: 'Honeymoon',
     description: '7 nights in a private island resort with couple experiences.',
     price: 'AED 6,999',
@@ -100,7 +100,7 @@ const packages: Package[] = [
   {
     title: 'Georgia Mountain Adventure',
     destination: 'Georgia',
-    image: 'https://makanit.ae/wp-content/uploads/2025/12/2189_7-1024x682.jpg',
+    image: '/images/wp/2189_7-1024x682.jpg',
     category: 'Summer',
     description: '6 days exploring Tbilisi, Kazbegi, and wine regions.',
     price: 'AED 2,499',

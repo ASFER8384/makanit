@@ -7,17 +7,17 @@ import Link from 'next/link';
 
 const slides = [
   {
-    image: 'https://makanit.ae/wp-content/uploads/2025/12/municht1_promo_3.webp',
+    image: '/images/wp/municht1_promo_3.webp',
     title: 'Your Trusted Travel Partner in the UAE',
     subtitle: 'Makani, your Ajman travel agency — crafting unforgettable journeys across the world with personalized service and care.',
   },
   {
-    image: 'https://makanit.ae/wp-content/uploads/2025/12/iStock-507551802-jpg-scaled.avif',
+    image: '/images/wp/iStock-507551802-jpg-scaled.avif',
     title: 'Discover Extraordinary Destinations',
     subtitle: 'From the Maldives to Turkey, explore exclusive travel packages tailored just for you.',
   },
   {
-    image: 'https://makanit.ae/wp-content/uploads/2025/12/shahdag.jpg',
+    image: '/images/wp/shahdag.jpg',
     title: 'Experience Luxury Like Never Before',
     subtitle: 'Premium accommodations, curated experiences, and memories that last a lifetime.',
   },

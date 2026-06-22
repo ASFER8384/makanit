@@ -27,7 +27,7 @@ export default function AboutSection() {
               }}
             >
               <Image
-                src="https://makanit.ae/wp-content/uploads/2025/02/hotel-bell-scaled.jpg"
+                src="/images/wp/hotel-bell-scaled.jpg"
                 alt="About Makani Travel"
                 fill
                 style={{ objectFit: 'cover' }}

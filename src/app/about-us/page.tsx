@@ -92,7 +92,7 @@ export default function AboutUs() {
                 }}
               >
                 <Image
-                  src="https://makanit.ae/wp-content/uploads/2025/02/business-man-car-scaled.jpg"
+                  src="/images/wp/business-man-car-scaled.jpg"
                   alt="About Makani Travel"
                   fill
                   style={{ objectFit: 'cover' }}
